@@ -10,7 +10,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     # Когда проект будет опубликован и станет доступен для пользователей,
-    # в этот список нужно будет добавить и адреса домена, где он будет размещён,
+    # в этот список нужно будет добавить адреса домена, где он будет размещён,
     # например 'acme.not' и 'www.acme.not'
 ]
 
@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'core.apps.CoreConfig',
     'django_bootstrap5',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -35,6 +36,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'acme_project.urls'
@@ -107,3 +109,7 @@ LOGIN_REDIRECT_URL = 'pages:homepage'
 LOGIN_URL = 'login'
 
 CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]

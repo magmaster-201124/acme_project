@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404, redirect
 from .forms import BirthdayForm, CongratulationForm
 # Импортируем из utils.py функцию для подсчёта дней.
 from .utils import calculate_birthday_countdown
-from .models import Birthday, Congratulation
+from .models import Birthday
 
 
 @login_required
@@ -29,6 +29,11 @@ class OnlyAuthorMixin(UserPassesTestMixin):
 class BirthdayListView(ListView):
 
     model = Birthday
+    # По умолчанию этот класс
+    # выполняет запрос queryset = Birthday.objects.all(),
+    # но мы его переопределим:
+    queryset = Birthday.objects.prefetch_related(
+        'tags').select_related('author')
     # ...сортировку, которая будет применена при выводе списка объектов:
     ordering = 'id'
     # ...и даже настройки пагинации:

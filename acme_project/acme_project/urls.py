@@ -9,6 +9,8 @@ from django.contrib import admin
 from django.urls import include, path, reverse_lazy
 
 handler404 = 'core.views.page_not_found'
+handler403 = 'core.views.csrf_failure'
+
 
 urlpatterns = [
     path('', include('pages.urls')),
@@ -25,5 +27,10 @@ urlpatterns = [
         ),
         name='registration',
     ),
-    # В конце добавляем к списку вызов функции static.
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+if settings.DEBUG:
+    import debug_toolbar
+    # Добавить к списку urlpatterns список адресов из приложения debug_toolbar:
+    urlpatterns += (path('__debug__/', include(debug_toolbar.urls)),)
+# В конце добавляем к списку вызов функции static.
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
